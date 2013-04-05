@@ -483,6 +483,11 @@ d3.json("../data/world-data-demo.json", function(error, world) {
                                 document.getElementById("get-environment").innerHTML = country.rwi_enabling;
 
                                 }
+
+                        $(".close").click(function(event) {
+                            event.preventDefault();
+                            $(this).closest(".RWITooltip").remove();
+                        })
                     },
                     show: function() {
                         var country = data.filter(function(country) { return country.iso3 == d.id })[0];
