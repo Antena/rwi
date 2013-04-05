@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+<!-- Le styles -->
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+<link href="../assets/css/flat-ui.css" rel="stylesheet">
+<link href="../assets/css/d3-bootstrap-plugins.min.css" rel="stylesheet">
+<style type="text/css">
+
+
+    @font-face {
+      font-family: 'Colfax-Regular';
+      src: url('../assets/fonts/Colfax-Regular.eot'); 
+      src: url('../assets/fonts/Colfax-Regular.eot?#iefix') format('embedded-opentype'),
+           url('../assets/fonts/Colfax-Regular.woff') format('woff'), 
+           url('../assets/fonts/Colfax-Regular.ttf') format('truetype'), 
+           url('../assets/fonts/Colfax-Regular.svg#svgFontName') format('svg');
+      }
+
+    @font-face {
+      font-family: 'Colfax-Medium';
+      src: url('../assets/fonts/Colfax-Medium.eot'); 
+      src: url('../assets/fonts/Colfax-Medium.eot?#iefix') format('embedded-opentype'),
+           url('../assets/fonts/Colfax-Medium.woff') format('woff'), 
+           url('../assets/fonts/Colfax-Medium.ttf') format('truetype'), 
+           url('../assets/fonts/Colfax-Medium.svg#svgFontName') format('svg');
+      }
+
+    @font-face {
+      font-family: 'Colfax-Bold';
+      src: url('../assets/fonts/Colfax-Bold.eot'); 
+      src: url('../assets/fonts/Colfax-Bold.eot?#iefix') format('embedded-opentype'),
+           url('../assets/fonts/Colfax-Bold.woff') format('woff'), 
+           url('../assets/fonts/Colfax-Bold.ttf') format('truetype'), 
+           url('../assets/fonts/Colfax-Bold.svg#svgFontName') format('svg');
+      }
+
+    body {
+    font-family: 'Colfax-Regular', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    }
+
+    /* Custom container */
+    .container-narrow {
+    margin: 0 auto;
+    max-width: 960px;
+    }
+    .container-narrow > hr {
+    margin: 30px 0;
+    }
+
+    .marketing {
+      margin-top: 40px;
+      position: relative;
+    }
+
+
+    .contextMenu {
+
+      position: absolute;
+      right: 0
+
+
+    }
+    .country {
+    fill: #ccc;
+    stroke: #fff;
+    stroke-width: .5px;
+    stroke-linejoin: round;
+    }
+
+    .country-boundary {
+    fill: none;
+    stroke: #fff;
+    stroke-width: .5px;
+    stroke-linejoin: round;
+    }
+    .select {
+        width: 600px;
+    }
+    .filter {
+        display: none;
+    }
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #f4f4f4;
+      shape-rendering: crispEdges;
+    }
+
+    .bar {
+      fill: steelblue;
+    }
+
+    .x.axis path {
+      display: none;
+    }
+/*    .subunit-label {
+  fill: #777;
+  fill-opacity: .5;
+  font-size: 20px;
+  font-weight: 300;
+  text-anchor: middle;
+}
+
+*/
+    #barchart {
+        font-size: 10px;
+    }
+
+    .place-label {
+      fill: #444;
+    }
+
+
+    /* CUSTOM BOOSTRAP RWI */
+
+    .nav-tabs>li>a, .nav-tabs>.active>a, .nav-tabs>.active>a:hover, .nav-tabs>.active>a:focus {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+/*#*/
+
+
+    .countryTooltip {
+
+      /*border: 2px solid #545C56;*/
+      position: relative;
+      display: block;
+      color: #545C56;
+      color: rgba(84, 92,86,1);
+      width: 230px;
+      height: 190px;
+      background-color: #FCFCFC;
+      padding: 15px;
+      -moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+border-radius: 10px;
+-khtml-border-radius: 10px; 
+    }
+
+
+
+    .countryTooltip .close {
+      text-decoration: none;
+    }
+
+    #countryName {
+      font-family: 'Colfax-Medium', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+       font-size: 24px;
+       line-height: 16px;
+       letter-spacing: -1px;
+    }
+
+    .countryRank, #resourceType, #setLink {
+      font-family: 'Colfax-Medium', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+      color: #545C56;
+      color: rgba(84, 92,86,.8);
+      font-size: 11px;
+      line-height: 13px;
+    }
+
+    #setLink a {
+      color: #545C56;
+      text-decoration: underline;
+    }
+
+    #countryData {
+      position: absolute;
+      top: 100px;
+      left: 15px;
+      font-size: 11px;
+      line-height: 10px;
+      width: 200px;
+      letter-spacing: 0px;
+    }
+
+    #countryData th {
+      border-right: 1px solid #B3B3B3;
+    }
+
+    #countryData p {
+      font-family: 'Colfax-Medium', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+      white-space: nowrap;
+      margin: 5px;
+      margin-left: 0px;
+    }
+
+
+    /*["#", "#", "#", "#", "#"]*/
+
+    .field-type { color: #545C56; color: rgba(84, 92,86,.7); text-align: left; padding-right: 5px;}
+    .field-score { /*color: #A05D56;*/ color: #000; text-align: left; padding-right: 5px;}
+    .field-instituional { color: #798BD2; text-align: left; padding-right: 5px;}
+    .field-reporting { color: #6D65A7; text-align: left; padding-right: 5px;}
+    .field-safeguards { color: #694584; text-align: left; padding-right: 5px;}
+    .field-environment { color: #6A2B66; text-align: left; padding-right: 5px;}
+
+    #get-score,
+    #get-instituional, 
+    #get-reporting, 
+    #get-safeguards, 
+    #get-environment {
+      font-size: 16px;
+      line-height: 5px;
+      color: black;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .NOR, .USA, .GBR, .AUS, .BRA, .MEX, .CAN, .CHL, .COL, .TTO, .PER, .IND, .TLS, .IDN, .GHA, .LBR, .ZMB, .ECU, .KAZ, .VEN, .RUS, .ZAF, .PHL, .MAR, .BOL, .MNG, .TZA, .AZE, .IRQ, .BWA, .BHR, .GAB, .GIN, .MYS, .SLE, .CHN, .YEM, .EGY, .PNG, .NGA, .AGO, .KWT, .VNM, .COD, .DZA, .MOZ, .CMR, .SAU, .AFG, .SDN, .ZWE, .KHM, .IRN, .QAT, .LBY, .GNQ, .TKM, .MM {
+      opacity: 1;      
+    }
+
+    .NOR:hover, .USA:hover, .GBR:hover, .AUS:hover, .BRA:hover, .MEX:hover, .CAN:hover, .CHL:hover, .COL:hover, .TTO:hover, .PER:hover, .IND:hover, .TLS:hover, .IDN:hover, .GHA:hover, .LBR:hover, .ZMB:hover, .ECU:hover, .KAZ:hover, .VEN:hover, .RUS:hover, .ZAF:hover, .PHL:hover, .MAR:hover, .BOL:hover, .MNG:hover, .TZA:hover, .AZE:hover, .IRQ:hover, .BWA:hover, .BHR:hover, .GAB:hover, .GIN:hover, .MYS:hover, .SLE:hover, .CHN:hover, .YEM:hover, .EGY:hover, .PNG:hover, .NGA:hover, .AGO:hover, .KWT:hover, .VNM:hover, .COD:hover, .DZA:hover, .MOZ:hover, .CMR:hover, .SAU:hover, .AFG:hover, .SDN:hover, .ZWE:hover, .KHM:hover, .IRN:hover, .QAT:hover, .LBY:hover, .GNQ:hover, .TKM:hover, .MM:hover {
+
+      cursor: pointer;
+      cursor: hand;
+      opacity: .75;
+
+    }
+
+/*    .country {opacity: 1;}
+    .country:hover {
+      cursor: pointer;
+      cursor: hand;
+      opacity: .75;}
+*/
+      .stacked {
+
+        opacity: 1;
+
+      }
+
+      .stacked:hover {
+      cursor: pointer;
+      cursor: hand;
+      opacity: .75;}
+
+.nav-pills>li>a {
+padding-top: 11px;
+}
+
+.rwi-menu {
+  min-width: 350px;
+}
+
+
+.content-head .hero-unit .quickmenu {
+position:absolute;
+top:25px;
+right:25px
+}
+
+.content-head .hero-unit .quickmenu li.dropdown {
+margin-left:15px
+}
+
+.dropdown-title {
+font-size:18px;
+font-weight:400;
+margin:0 0 15px;
+padding:0 15px;
+text-shadow:none;
+text-transform:none;
+line-height: 1.2
+}
+
+.dropdown-subtitle {
+font-size: 15px;
+padding: 0;
+text-shadow: none;
+line-height: 27px;
+}
+
+.dropdown-menu ul li a, .navbar .dropdown-menu ul li a {
+font-size: 13px;
+padding: 10px;
+line-height: 13px;
+margin: 5px 15px;
+}
+
+.dropdown-menu {
+  min-width: 200px;
+}
+
+.ATA { display: none; }
+
+
+</style>
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+
+<div class="container-narrow">
+<div class="row-fluid">
+  <div class="span10">
+    <h1>Overall Results</h1>
+    <p>Cras vel erat lectus, eget ornare lectus. Cras vestibulum tincidunt ligula, id commodo lorem condimentum sed. Nulla vel laoreet nibh. Mauris vel scelerisque nulla. Maecenas porta, mauris quis cursus gravida, orci enim tempor orci, ut blandit tortor nibh id enim. Mauris vitae tortor nisi, eu pulvinar sem. Nullam lacinia tellus id purus gravida a mattis orci ornare. Donec scelerisque nisi sit amet enim laoreet id amet.
+    </p>
+  </div>
+</div>
+<div class="row-fluid marketing">
+  <div class="contextMenu">
+            <div class="quickmenu">
+                <ul class="nav nav-pills">
+                    <li class="dropdown menu-share">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Share</a>
+                        <div class="dropdown-menu dd-share" data-view="share-menu">
+                            <ul class="unstyled">
+                                <li class="nav-header">
+                                    <h3 class="dropdown-subtitle">
+                                        Share
+                                    </h3>
+                                </li>
+                                <li>
+                                    <a href="https://www.facebook.com/sharer.php" class="btn block">Facebook</a>
+                                </li>
+                                <li>
+                                    <a href="https://twitter.com/share" class="btn block">Twitter</a>
+                                </li>
+                                <li>
+                                    <a href="mailto:?body=link" class="btn block">E-Mail</a>
+                                </li>
+                                <li class="nav-header">
+                                    <h3 class="dropdown-subtitle">
+                                        Link
+                                    </h3>
+                                </li>
+                                <li class="phs">
+                                    <input type="text" value="http://www.revenuewatch.org/countries/latin-america/ecuador/overview/">
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                     <li class="dropdown menu-save">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Save</a>
+                        <div class="dropdown-menu dd-export">
+                            
+                            <ul class="unstyled">
+                                <li class="nav-header">
+                                    <h3 class="dropdown-subtitle">
+                                        Visualization
+                                    </h3>
+                                </li>
+                                <li>
+                                    <a href="http://url2png.com/" class="btn block js-export-image" data-track-event="export.png" data-track-value="http://url2png.com/">Save <abbr title="Portable Network Graphics">image</abbr></a>
+                                </li>
+                                <li class="nav-header">
+                                    <h3 class="dropdown-subtitle">
+                                        Data
+                                    </h3>
+                                </li>
+                                <li>
+                                    <a href="" class="btn block js-export-file">Save as <abbr title="Microsoft Office Excel Spreadsheet">Excel</abbr></a>
+                                </li>
+                                <li>
+                                    <a href="" class="btn block js-export-file" data-track-event="export.csv">Save as <abbr title="Comma-Separated Values">CSV</abbr></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+  </div>
+    <ul id="tab" class="nav nav-tabs">
+      <li class="active">
+          <a href="#map" data-toggle="tab">Map</a>
+      </li>
+      <li class="">
+          <a href="#barchart" data-toggle="tab">Stacked Bar Chart</a>
+      </li>
+   </ul>
+<div id="tabContent" class="tab-content">
+    <div class="tab-pane fade active in" id="map">
+    </div>
+    <div class="tab-pane fade" id="barchart">
+        
+    </div>
+</div>
+</div>
+
+</div> <!-- /container -->
+
+<script type="text/javascript" src="../assets/js/knockout.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="../assets/js/d3.min.js"></script>
+<script type="text/javascript" src="../assets/js/d3.geo.projection.v0.min.js"></script>
+<script type="text/javascript" src="../assets/js/topojson.js"></script>
+<script type="text/javascript" src="../assets/js/bootstrap-tab.js"></script>
+<script type="text/javascript" src="../assets/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="../assets/js/stacked.js"></script>
+<script type="text/javascript" src="../assets/js/d3tooltip.js"></script>
+<script type="text/javascript">
+
+var getTooltip = '<div class="countryTooltip"><a class="close pull-right" href="#">&times;</a><div class="staticInfo"><h2 id="countryName"></h2><div class="countryRank">Rank: <span id="rankingPos"></span> / 58</div><div id="resourceType">Resource measured: <span id="setIcon"></span></div><div id="setLink"><a href="">Learn more</a></div><table id="countryData" border="0"><tr><th><p class="field-score"> Composite Score </p></th><td><p id="get-score"></p></td></tr><tr><th><p class="field-instituional"> Institutional &Legal Setting </p></th><td><p id="get-instituional"></p></td></tr><tr><th><p class="field-reporting"> Reporting Practices </p></th><td><p id="get-reporting"></p></td></tr><tr><th><p class="field-safeguards"> Safeguards &Quality Controls </p></th><td><p id="get-safeguards"></p></td></tr><tr><th><p class="field-environment"> Enabling Environment </p></th><td><p id="get-environment"></p></td></tr></table></div></div>';
+
+var getTooltipStacked = getTooltip;
+
+var width = 960,
+height = 600;
+
+var newProjection = d3.select("#map").append("svg")
+
+.attr("width", width)
+.attr("height", height);
+
+
+var color = d3.scale.threshold()
+  .domain([38,46,64,99])
+  .range(["#99CF09", "#FEC425", "#FD8B28", "#CF3C09"].reverse());
+
+var projection = d3.geo.robinson()
+    .scale(180)
+    .translate([width / 2, height / 2]);
+
+// Based the data transformation over the CartoDB
+// $ topojson -o world-data-demo.json world-data.geojson --id-property iso3 -p name,pop2005
+
+d3.json("../data/world-data.json", function(error, data) {
+//console.log(data);
+
+d3.json("../data/world-data-demo.json", function(error, world) {
+
+
+
+
+    var path = newProjection.selectAll(".country")
+        .data(topojson.object(world, world.objects.countries).geometries)
+        .enter().append("path");
+
+        path
+          .attr("class", function(d) { return "country " + d.id; })
+
+        .attr("d", d3.geo.path().projection(projection))
+
+        .style("fill", function(d) {
+            var country = data.filter(function(country) { return country.iso3 == d.id })[0];    
+            if (country) {
+                return color(country.rwi_score);
+
+            }
+        })
+        .tooltip(function(d,i) {
+                return {
+                    cssClass: "RWITooltip",
+                    type: "fixed",
+                    displacement: 
+
+                      [0,10]
+
+                    ,
+                    pointerEvents:"all",
+                    content: getTooltip,
+                    updateContent: function() {
+
+
+                        var country = data.filter(function(country) { return country.iso3 == d.id })[0];
+                            if (country) {
+
+                                document.getElementById("countryName").innerHTML = country.name;
+                                document.getElementById("rankingPos").innerHTML = country.rwi_rank;
+                                document.getElementById("get-score").innerHTML = country.rwi_score;
+                                document.getElementById("get-instituional").innerHTML = country.rwi_institutional;
+                                document.getElementById("get-reporting").innerHTML = country.rwi_reporting;
+                                document.getElementById("get-safeguards").innerHTML = country.rwi_safeguard;
+                                document.getElementById("get-environment").innerHTML = country.rwi_enabling;
+
+                                }
+                    },
+                    show: function() {
+                        var country = data.filter(function(country) { return country.iso3 == d.id })[0];
+                            if (country) {
+                                return country.rwi_score != 0;
+                                }
+                            
+                    }
+                    
+                }
+            });
+ 
+
+                //path.select(".ATA").remove();
+
+
+});    
+  
+
+
+});
+
+
+
+
+$(document).ready(function() { 
+
+$('#tab a').click(function (e) {
+  e.preventDefault();
+  $(this).tab('show');
+})
+
+$('.dropdown-toggle').dropdown();
+
+
+$('.close').click(function(){
+
+  alert("oh hi");
+
+    //$('.RWITooltip').remove();
+
+  });
+
+
+
+});
+
+
+
+</script>
+
+
+
+
+</body>
+</html>

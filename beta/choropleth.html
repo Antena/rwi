@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Revenue Watch Index</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">    
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+
+    <style type="text/css">
+        body {
+        padding-top: 20px;
+        padding-bottom: 40px;
+        }
+
+        /* Custom container */
+        .container-narrow {
+        margin: 0 auto;
+        max-width: 960px;
+        }
+        .container-narrow > hr {
+        margin: 30px 0;
+        }
+
+.states {
+  fill: none;
+  stroke: #fff;
+  stroke-linejoin: round;
+}
+
+.q0-9 { fill:rgb(247,251,255); }
+.q1-9 { fill:rgb(222,235,247); }
+.q2-9 { fill:rgb(198,219,239); }
+.q3-9 { fill:rgb(158,202,225); }
+.q4-9 { fill:rgb(107,174,214); }
+.q5-9 { fill:rgb(66,146,198); }
+.q6-9 { fill:rgb(33,113,181); }
+.q7-9 { fill:rgb(8,81,156); }
+.q8-9 { fill:rgb(8,48,107); }
+
+        .country {
+        fill: #ccc;
+        stroke: #fff;
+        stroke-width: .5px;
+        stroke-linejoin: round;
+        }
+
+        .country-boundary {
+        fill: none;
+        stroke: #fff;
+        stroke-width: .5px;
+        stroke-linejoin: round;
+        }
+
+
+
+    </style>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+
+    <div class="container-narrow">
+
+    <div class="row-fluid marketing">
+        <div class="span6" id="map">
+
+        </div>
+      </div>
+
+
+    </div> <!-- /container -->
+
+
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+<script src="http://d3js.org/topojson.v0.min.js"></script>
+<script>
+
+// var width = 960,
+//     height = 1160;
+
+// var svg = d3.select("#map").append("svg")
+//     .attr("width", width)
+//     .attr("height", height);
+
+// // Based the data transformation over the CartoDB
+// // $ topojson -o world-data-demo.json world-data.geojson --id-property iso3 -p name,pop2005
+
+
+// d3.json("../geodata/world-data-demo.json", function(error, world) {
+//   svg.append("path")
+//       .datum(topojson.object(world, world.objects.countries))
+//       .attr("d", d3.geo.path().projection(d3.geo.mercator()))
+//       .attr("class", "country");
+// });
+
+
+var width = 960,
+    height = 500;
+
+var quantize = d3.scale.quantize()
+    .domain([0, .15])
+    .range(d3.range(9).map(function(i) { return "q" + i + "-9"; }));
+
+var path = d3.geo.path();
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+queue()
+    .defer(d3.json, "../geodata/us.json")
+    .defer(d3.tsv, "../geodata/unemployment.tsv")
+    .await(ready);
+
+function ready(error, us, unemployment) {
+  var rateById = {};
+
+  unemployment.forEach(function(d) { rateById[d.id] = +d.rate; });
+
+  svg.append("g")
+      .attr("class", "counties")
+    .selectAll("path")
+      .data(topojson.object(us, us.objects.counties).geometries)
+    .enter().append("path")
+      .attr("class", function(d) { return quantize(rateById[d.id]); })
+      .attr("d", path);
+
+  svg.append("path")
+      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a.id !== b.id; }))
+      .attr("class", "states")
+      .attr("d", path);
+}
+
+
+</script>
+
+  </body>
+</html>

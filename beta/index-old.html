@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">    
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="../assets/css/chosen.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+        padding-top: 20px;
+        padding-bottom: 40px;
+        }
+
+        /* Custom container */
+        .container-narrow {
+        margin: 0 auto;
+        max-width: 960px;
+        }
+        .container-narrow > hr {
+        margin: 30px 0;
+        }
+
+
+        .country {
+        fill: #ccc;
+        stroke: #fff;
+        stroke-width: .5px;
+        stroke-linejoin: round;
+        }
+
+        .country-boundary {
+        fill: none;
+        stroke: #fff;
+        stroke-width: .5px;
+        stroke-linejoin: round;
+        }
+        .select {
+            width: 600px;
+        }
+        .filter {
+            display: none;
+        }
+    </style>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+
+    <div class="container-narrow">
+
+    <div class="row-fluid marketing">
+        <div class="span12">
+            <select class="selector" id="countrySelector" data-bind="options: countries,
+                               optionsCaption: 'Choose country...',
+                               optionsText: 'name',
+                               value: choosenCountry"></select>
+            
+            <select class="selector filter" id="filterSelector" data-bind="options: selectFilter,
+                               optionsCaption: 'Choose filter...',
+                               optionsText: 'name',
+                               value: choosenFilter"></select>
+
+            <select class="selector" id="regionSelector" data-bind="options: selectRegion,
+                               optionsCaption: 'Choose region...',
+                               optionsText: 'name',
+                               value: choosenRegion"></select>
+
+            <div>
+                <p data-bind="with: choosenCountry">
+                        <span data-bind="text: countryID"></span>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="row-fluid marketing">
+        <div class="span12" id="map"></div>
+    </div>
+
+
+    </div> <!-- /container -->
+
+<script type="text/javascript" src="../assets/js/knockout.min.js"></script>
+<script type="text/javascript" src="../assets/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../assets/js/chosen.jquery.min.js"></script>
+<script type="text/javascript" src="../assets/js/d3.min.js"></script>
+<script type="text/javascript" src="../assets/js/d3.geo.projection.v0.min.js"></script>
+<script type="text/javascript" src="../assets/js/topojson.js"></script>
+<script type="text/javascript">
+
+
+function countriesViewModel() {
+
+    this.countries = [
+        { countryID: 'AFG', name: 'Afghanistan'},
+        { countryID: 'AGO', name: 'Angola'},
+        { countryID: 'AUS', name: 'Australia'},
+        { countryID: 'AZE', name: 'Azerbaijan'},
+        { countryID: 'BHR', name: 'Bahrain'},
+        { countryID: 'BOL', name: 'Bolivia'},
+        { countryID: 'BRA', name: 'Brazil'},
+        { countryID: 'BWA', name: 'Botswana'},
+        { countryID: 'CAN', name: 'Canada'},
+        { countryID: 'CHL', name: 'Chile'},
+        { countryID: 'CHN', name: 'China'},
+        { countryID: 'CMR', name: 'Cameroon'},
+        { countryID: 'COD', name: 'Democratic Republic of the Congo'},
+        { countryID: 'COL', name: 'Colombia'},
+        { countryID: 'DZA', name: 'Algeria'},
+        { countryID: 'ECU', name: 'Ecuador'},
+        { countryID: 'EGY', name: 'Egypt'},
+        { countryID: 'GAB', name: 'Gabon'},
+        { countryID: 'GBR', name: 'United Kingdom'},
+        { countryID: 'GHA', name: 'Ghana'},
+        { countryID: 'GIN', name: 'Guinea'},
+        { countryID: 'GNQ', name: 'Equatorial Guinea'},
+        { countryID: 'IDN', name: 'Indonesia'},
+        { countryID: 'IND', name: 'India'},
+        { countryID: 'IRN', name: 'Iran (Islamic Republic of)'},
+        { countryID: 'IRQ', name: 'Iraq'},
+        { countryID: 'KAZ', name: 'Kazakhstan'},
+        { countryID: 'KHM', name: 'Cambodia'},
+        { countryID: 'KWT', name: 'Kuwait'},
+        { countryID: 'LBR', name: 'Liberia'},
+        { countryID: 'LBY', name: 'Libya'},
+        { countryID: 'MAR', name: 'Morocco'},
+        { countryID: 'MEX', name: 'Mexico'},
+        { countryID: 'MMR', name: 'Myanmar'},
+        { countryID: 'MNG', name: 'Mongolia'},
+        { countryID: 'MOZ', name: 'Mozambique'},
+        { countryID: 'MYS', name: 'Malaysia'},
+        { countryID: 'NGA', name: 'Nigeria'},
+        { countryID: 'NOR', name: 'Norway'},
+        { countryID: 'PER', name: 'Peru'},
+        { countryID: 'PHL', name: 'Philippines'},
+        { countryID: 'PNG', name: 'Papua New Guinea'},
+        { countryID: 'QAT', name: 'Qatar'},
+        { countryID: 'RUS', name: 'Russian Federation'},
+        { countryID: 'SAU', name: 'Saudi Arabia'},
+        { countryID: 'SDN', name: 'Sudan'},
+        { countryID: 'SLE', name: 'Sierra Leone'},
+        { countryID: 'TKM', name: 'Turkmenistan'},
+        { countryID: 'TLS', name: 'Timor-Leste'},
+        { countryID: 'TTO', name: 'Trinidad and Tobago'},
+        { countryID: 'TZA', name: 'Tanzania'},
+        { countryID: 'USA', name: 'United States'},
+        { countryID: 'VEN', name: 'Venezuela'},
+        { countryID: 'VNM', name: 'Vietnam'},
+        { countryID: 'YEM', name: 'Yemen'},
+        { countryID: 'ZAF', name: 'South Africa'},
+        { countryID: 'ZMB', name: 'Zambia'},
+        { countryID: 'ZWE', name: 'Zimbabwe'}
+
+    ];
+
+    this.choosenCountry = ko.observable(); 
+
+
+    this.selectFilter = [
+        {filterID: 'rwi_rank', name: 'Rank'},
+        {filterID: 'rwi_score', name: 'Composite Score'},
+        {filterID: 'rwi_institutional', name: 'Institutional & Legal Setting'},
+        {filterID: 'rwi_reporting', name: 'Reporting Practices'},
+        {filterID: 'rwi_safeguard', name: 'Safeguards & Quality Controls'},
+        {filterID: 'rwi_enabling', name: 'Enabling Environment'}
+    ];
+    this.choosenFilter = ko.observable();
+
+    this.selectRegion = [
+        {regionID: 1, name: 'Middle East & North Africa'},
+        {regionID: 2, name: 'Europe & Central Asia'},
+        {regionID: 3, name: 'East Asia & Pacific'},
+        {regionID: 4, name: 'Sub-Saharan Africa'},
+        {regionID: 5, name: 'Eurasia & South Asia'},
+        {regionID: 6, name: 'Latin America & Caribbean'},
+        {regionID: 7, name: 'OECD'}
+    ]
+
+    this.choosenRegion = ko.observable();
+
+}
+
+
+ko.applyBindings(new countriesViewModel());
+
+
+
+
+var width = 960,
+    height = 1160;
+
+var svg = d3.select("#map").append("svg")
+
+    .attr("width", width)
+    .attr("height", height);
+
+var color = d3.scale.ordinal()
+    .domain([0, 30, 60, 100])
+    .range(["#99CF09", "#FEC425", "#FD8B28", "#CF3C09"]);
+
+// Based the data transformation over the CartoDB
+// $ topojson -o world-data-demo.json world-data.geojson --id-property iso3 -p name,pop2005
+
+d3.csv("../geodata/world-data.csv", function(error, data) {
+    console.log(data);
+
+    d3.json("../geodata/world-data-demo.json", function(error, world) {
+
+        var path = svg.selectAll(".country")
+            .data(topojson.object(world, world.objects.countries).geometries)
+            .enter().append("path");
+
+        path
+            .classed("country", true)
+            .attr("d", d3.geo.path().projection(d3.geo.robinson()))
+            .style("fill", function(d) {
+                var country = data.filter(function(country) { return country.iso3 == d.id })[0];
+                if (country) {
+                    return color(country.rwi_score);
+                }
+            });
+
+
+
+    });    
+})
+
+// Choosen.js
+
+// http://harvesthq.github.com/chosen/
+
+$(document).ready(function() { 
+
+
+     $("#countrySelector, #regionSelector").chosen();
+
+ });
+
+
+
+</script>
+
+
+
+
+  </body>
+</html>

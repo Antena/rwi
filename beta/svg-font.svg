@@ -1,0 +1,36 @@
+<svg 
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ viewBox="800 -200 1000 1000">
+<defs>
+
+      <style type="text/css">
+
+     @import url(http://fonts.googleapis.com/css?family=Julee|Amatic+SC|Handlee|Bonbon|Open+Sans+Condensed:300);
+
+     .ex4 {font: 65px 'Julee';} 
+     .ex5 {font: 89px 'Amatic SC';}
+     .ex6 {font: 65px 'Handlee';}
+     .ex7 {font: 40px 'Bonbon';}
+     .ex8 {font: 40px 'Open Sans Condensed';}
+
+
+     text { text-anchor:middle }
+
+  </style>
+    <path id="p" d="M700 400a200 200 0 1 1 400 0"/>
+    <radialGradient id="rg" cx="0.5" cy="0.5" r="0.7">
+      <stop offset="0" style="stop-color:hsl(210,80%,50%)"/>
+      <stop offset="1" style="stop-color:hsla(210,80%,50%,0)"/>
+    </radialGradient>
+  </defs>
+  
+  <circle cx="900" cy="450" r="1000" stroke-dasharray="104.9" stroke-dashoffset="100" stroke="url(#rg)" fill="none" stroke-width="1500"/>
+
+  <text class="ex4" transform="translate(900 320)">Julee (webfont)</text>
+  <text class="ex5" transform="translate(900 420)">Amatic SC (webfont)</text>
+  <text class="ex6" transform="translate(900 520)">Handlee (webfont)</text>
+  <text class="ex7" transform="translate(900 620)">Bonbon (webfont)</text>
+  <text class="ex8" transform="translate(900 680)">Open+Sans+Condensed (webfont)</text>
+  
+</svg>
