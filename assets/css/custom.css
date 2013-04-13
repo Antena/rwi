@@ -1,0 +1,438 @@
+@font-face {
+font-family:'Colfax-Regular';
+src:url(../../assets/fonts/Colfax-Regular.eot);
+src:url(../../assets/fonts/Colfax-Regular.eot?#iefix) format("embedded-opentype"),url(../../assets/fonts/Colfax-Regular.woff) format("woff"),url(../../assets/fonts/Colfax-Regular.ttf) format("truetype"),url(../../assets/fonts/Colfax-Regular.svg#svgFontName) format("svg")
+}
+
+@font-face {
+font-family:'Colfax-Medium';
+src:url(../../assets/fonts/Colfax-Medium.eot);
+src:url(../../assets/fonts/Colfax-Medium.eot?#iefix) format("embedded-opentype"),url(../../assets/fonts/Colfax-Medium.woff) format("woff"),url(../../assets/fonts/Colfax-Medium.ttf) format("truetype"),url(../../assets/fonts/Colfax-Medium.svg#svgFontName) format("svg")
+}
+
+@font-face {
+font-family:'Colfax-Bold';
+src:url(../../assets/fonts/Colfax-Bold.eot);
+src:url(../../assets/fonts/Colfax-Bold.eot?#iefix) format("embedded-opentype"),url(../../assets/fonts/Colfax-Bold.woff) format("woff"),url(../../assets/fonts/Colfax-Bold.ttf) format("truetype"),url(../../assets/fonts/Colfax-Bold.svg#svgFontName) format("svg")
+}
+
+@font-face {
+  font-family: 'icomoon';
+  src:url('../../assets/fonts/icomoon.eot');
+  src:url('../../assets/fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+    url('../../assets/fonts/icomoon.woff') format('woff'),
+    url('../../assets/fonts/icomoon.ttf') format('truetype'),
+    url('../../assets/fonts/icomoon.svg#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+font-family:'Colfax-Regular','Helvetica Neue','Helvetica',Arial,sans-serif;
+padding-top:20px;
+padding-bottom:40px
+}
+
+a {
+  -webkit-transition: 0.25s;
+  -moz-transition: 0.25s;
+  -o-transition: 0.25s;
+  transition: 0.25s;
+  -webkit-backface-visibility: hidden;
+}
+
+a:focus {
+  outline: none;
+  
+}
+
+/* Custom container */
+.container-narrow {
+margin:0 auto;
+max-width:960px
+}
+
+.container-narrow > hr {
+margin:30px 0
+}
+
+.marketing {
+margin-top:40px;
+position:relative
+}
+
+.contextMenu {
+position:absolute;
+top: -100px;
+right:0
+}
+
+.country {
+fill:#ccc;
+stroke:#fff;
+stroke-width:.5px;
+stroke-linejoin:round
+}
+
+.country-boundary {
+fill:none;
+stroke:#fff;
+stroke-width:.5px;
+stroke-linejoin:round
+}
+
+
+545c56
+.select {
+width:600px
+}
+
+.filter {
+display:none
+}
+
+.axis path,.axis line {
+fill:none;
+stroke:#f4f4f4;
+shape-rendering:crispEdges
+}
+
+.bar {
+fill:#4682b4
+}
+
+.x.axis path {
+display:none
+}
+
+#comparison, #barchart {
+font-size:10px
+}
+
+.place-label {
+fill:#444
+}
+
+
+[data-icon]:before {
+  font-family: 'icomoon';
+  content: attr(data-icon);
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.icon-twitter, .icon-google, .icon-link, .icon-facebook, .icon-Minerals, .icon-Hydrocarbons, .icon-data {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+.icon-twitter:before {
+  content: "\31";
+}
+.icon-google:before {
+  content: "\32";
+}
+.icon-link:before {
+  content: "\33";
+}
+.icon-facebook:before {
+  content: "\34";
+}
+
+.icon-twitter, .icon-facebook, .icon-google, .icon-link {
+  font-size: 35px;
+  margin: 5px;
+  margin-left: 10px;
+  color: rgba(84, 92, 86, .6);
+}
+
+
+.icon-Minerals:before {
+  content: "\36";
+  margin-left: 5px;
+  font-size: 16px !important;
+  line-height: 10px !important;
+
+}
+.icon-Hydrocarbons:before {
+  content: "\35";
+  margin-left: 5px;
+  font-size: 20px !important;
+  line-height: 10px !important;
+}
+.icon-data:before {
+  content: "\37";
+  font-size: 35px;
+  line-height: 10px;
+  margin-left: -10px; 
+}
+
+/* CUSTOM BOOSTRAP RWI */
+.nav-tabs>li>a,.nav-tabs>.active>a,.nav-tabs>.active>a:hover,.nav-tabs>.active>a:focus {
+padding-left:15px;
+padding-right:15px;
+font-size: 12px;
+}
+
+.nav-tabs>li>a, .nav-pills>li>a {
+    color: #545C56 !important;
+    font-weight: bold;
+}
+
+.share-bar {
+  border-top: 1px solid #ddd;
+}
+
+.share-bar p {
+  font-size: 13px;
+  margin-top: 25px;
+  color: #545C56 !important;
+  font-weight: bold;
+}
+
+
+.stackedTooltip,.countryTooltip {
+position:relative;
+display:block;
+color:#545C56;
+color:rgba(84,92,86,1);
+background-color:#FCFCFC;
+background-color:rgba(252,252,252,.95);
+padding:15px;
+-moz-border-radius:10px;
+-webkit-border-radius:10px;
+border-radius:10px;
+-khtml-border-radius:10px
+}
+
+.countryTooltip {
+width:450px;
+height:270px
+}
+
+.stackedTooltip {
+width:240px;
+height:190px
+}
+
+.stackedTooltip:after,.countryTooltip:after {
+content:' ';
+height:0;
+position:absolute;
+width:0;
+border:10px solid transparent;
+border-top-color:#FCFCFC;
+border-top-color:rgba(252,252,252,.95);
+top:100%;
+left:50%;
+margin-left:-10px
+}
+
+.countryTooltip .close {
+text-decoration:none
+}
+
+#countryName {
+font-family:'Colfax-Medium','Helvetica Neue','Helvetica',Arial,sans-serif;
+font-size:22px;
+line-height:16px;
+letter-spacing:-1px
+}
+
+.countryRank,#resourceType,#setLink {
+font-family:'Colfax-Medium','Helvetica Neue','Helvetica',Arial,sans-serif;
+color:#545C56;
+color:rgba(84,92,86,.8);
+font-size:11px;
+line-height:13px
+}
+
+#setLink a {
+color:#545C56;
+text-decoration:underline
+}
+
+#countryData {
+position:absolute;
+top:40px;
+right:40px;
+font-size:11px;
+line-height:10px;
+width:200px;
+letter-spacing:0
+}
+
+.stackedTooltip #countryData {
+top:100px;
+left:20px
+}
+
+#countryData th {
+border-right:1px solid #B3B3B3
+}
+
+#countryData p {
+font-family:'Colfax-Medium','Helvetica Neue','Helvetica',Arial,sans-serif;
+white-space:nowrap;
+margin:5px;
+margin-left:0
+}
+
+.field-type {
+color:#545C56;
+color:rgba(84,92,86,.7);
+text-align:left;
+padding-right:5px
+}
+
+.field-score {
+color:#000;
+text-align:left;
+padding-right:5px
+}
+
+.field-instituional {
+color:#798BD2;
+text-align:left;
+padding-right:5px
+}
+
+.field-reporting {
+color:#6D65A7;
+text-align:left;
+padding-right:5px
+}
+
+.field-safeguards {
+color:#694584;
+text-align:left;
+padding-right:5px
+}
+
+.field-environment {
+color:#6A2B66;
+text-align:left;
+padding-right:5px
+}
+
+#get-score,#get-instituional,#get-reporting,#get-safeguards,#get-environment {
+font-size:16px;
+line-height:5px;
+color:#000;
+padding-left:10px;
+padding-right:10px
+}
+
+.NOR,.USA,.GBR,.AUS,.BRA,.MEX,.CAN,.CHL,.COL,.TTO,.PER,.IND,.TLS,.IDN,.GHA,.LBR,.ZMB,.ECU,.KAZ,.VEN,.RUS,.ZAF,.PHL,.MAR,.BOL,.MNG,.TZA,.AZE,.IRQ,.BWA,.BHR,.GAB,.GIN,.MYS,.SLE,.CHN,.YEM,.EGY,.PNG,.NGA,.AGO,.KWT,.VNM,.COD,.DZA,.MOZ,.CMR,.SAU,.AFG,.SDN,.ZWE,.KHM,.IRN,.QAT,.LBY,.GNQ,.TKM,.MM {
+opacity:1
+}
+
+.NOR:hover,.USA:hover,.GBR:hover,.AUS:hover,.BRA:hover,.MEX:hover,.CAN:hover,.CHL:hover,.COL:hover,.TTO:hover,.PER:hover,.IND:hover,.TLS:hover,.IDN:hover,.GHA:hover,.LBR:hover,.ZMB:hover,.ECU:hover,.KAZ:hover,.VEN:hover,.RUS:hover,.ZAF:hover,.PHL:hover,.MAR:hover,.BOL:hover,.MNG:hover,.TZA:hover,.AZE:hover,.IRQ:hover,.BWA:hover,.BHR:hover,.GAB:hover,.GIN:hover,.MYS:hover,.SLE:hover,.CHN:hover,.YEM:hover,.EGY:hover,.PNG:hover,.NGA:hover,.AGO:hover,.KWT:hover,.VNM:hover,.COD:hover,.DZA:hover,.MOZ:hover,.CMR:hover,.SAU:hover,.AFG:hover,.SDN:hover,.ZWE:hover,.KHM:hover,.IRN:hover,.QAT:hover,.LBY:hover,.GNQ:hover,.TKM:hover,.MM:hover {
+cursor:pointer;
+cursor:hand;
+opacity:.75
+}
+
+/*    .country {opacity: 1;}
+    .country:hover {
+      cursor: pointer;
+      cursor: hand;
+      opacity: .75;}
+*/
+.stacked {
+opacity:1
+}
+
+.stacked:hover {
+cursor:pointer;
+cursor:hand;
+opacity:.75
+}
+
+.smallStacked {
+opacity:.3
+}
+
+.selected {
+opacity:1
+}
+
+.nav-pills>li>a {
+padding-top:11px
+}
+
+.rwi-menu {
+min-width:350px
+}
+
+.content-head .hero-unit .quickmenu {
+position:absolute;
+top:25px;
+right:25px
+}
+
+.quickmenu {
+ 
+}
+
+.nav>li>a, .nav>li>a {
+text-decoration: none;
+
+ color: #8d938e !important;
+}
+
+.nav>li>a:hover, .nav>li>a:focus, .nav>li>a:hover .icon-data {
+text-decoration: none;
+background-color: #fff;
+color: #545c56  !important;
+}
+
+.icon-data {
+color: #545c56  !important;
+}
+
+.content-head .hero-unit .quickmenu li.dropdown {
+margin-left:15px
+}
+
+.dropdown-title{font-size:18px;font-weight:400;margin:0 0 15px;padding:0 15px;text-shadow:none;text-transform:none;line-height:1.2}
+
+
+.dropdown-subtitle {
+font-size:15px;
+padding:0;
+text-shadow:none;
+line-height:27px
+}
+
+.dropdown-menu ul li a,.navbar .dropdown-menu ul li a {
+font-size:13px;
+padding:10px;
+line-height:13px;
+margin:5px 15px
+}
+
+.dropdown-menu {
+min-width:200px
+}
+
+.ATA {
+display:none
+}
+
+/*
+COMPARISON TOOL
+*/
+
+.nav-pills a {
+  font-size: 13px;
+}

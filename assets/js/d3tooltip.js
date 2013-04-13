@@ -61,25 +61,21 @@
             }
         });
 
-        if (options.type == "mouse") {
-            if (options.show()) {
-                element.on("mousemove", function() {
-                    var tip = d3.selectAll("." + options.cssClass);
-                    var coordinates = calculateCoordinates(tip);
-                    tip
-                        .style("left", coordinates[0] + "px")
-                        .style("top", coordinates[1] + "px");
-                });
-            }
-        }
+        
+
+
+
+
 
         element.on("mouseout", function() {
             if (options.show()) {
                 var tip = d3.selectAll("." + options.cssClass);
-                // tip.remove();
-            }
-        });
-    };
+                    // if () {
+                    //      tip.remove();
+                    // };
+                }
+            });
+        };
 
     d3.selection.prototype.tooltip = function(f) {
         var body = d3.select('body');
